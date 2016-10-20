@@ -1,0 +1,31 @@
+services:
+
+    yuido_api_auth.user_manager:
+        class: Yuido\ApiAuthBundle\UserManager
+        arguments: 
+            - "@security.encoder_factory"
+            - "@doctrine.orm.entity_manager"
+            - "%yuido_api_auth.user_class%"
+        
+    yuido_api_auth.email_validator:
+        class: Yuido\ApiAuthBundle\Validator\Constraints\EmailValidator
+        arguments: ["@doctrine.orm.entity_manager", "%yuido_api_auth.user_class%"]
+        tags:
+            - { name: validator.constraint_validator, alias: email_validator }   
+            
+    yuido_api_auth.token_manager:
+        class: Yuido\ApiAuthBundle\Security\TokenManager
+        arguments: ["@doctrine.orm.entity_manager", "%yuido_api_auth.user_class%"]
+        
+    yuido_api_auth.login_manager:
+        class: Yuido\ApiAuthBundle\Security\LoginManager
+        arguments: 
+            - "@yuido_api_auth.user_manager"
+            - "@security.encoder_factory"
+            - "@yuido_api_auth.token_manager"
+    
+    yuido_api_auth.token.action_listener:
+        class: Yuido\ApiAuthBundle\Security\TokenListener
+        arguments: ["@doctrine.orm.entity_manager", "@yuido_api_auth.token_manager"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

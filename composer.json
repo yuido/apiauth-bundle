@@ -1,0 +1,20 @@
+{
+    "name": "yuido/apiauth-bundle",
+    "description": "A Bundle to make easy the protection of your REST API",
+    "keywords": ["rest","rpc", "rest-rpc", "api", "auth"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Juanda Rodríguez",
+            "email": "juanda@yuido.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.9"
+    },
+    "autoload": {
+        "psr-4": { "Yuido\\RestRpcBundle\\": "" }
+    },
+    "minimum-stability": "dev"
+}
